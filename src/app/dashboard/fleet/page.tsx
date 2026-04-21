@@ -52,12 +52,13 @@ export default function FleetPage() {
     }
   };
 
+  // FIX TYPESCRIPT ERROR: Tambahkan "as React.CSSProperties" di sini
   const inputStyle = {
     width: '100%', background: '#0d0618',
     border: '1px solid rgba(168, 85, 247, 0.3)',
     borderRadius: '4px', padding: '8px 12px',
     color: 'white', fontSize: '12px', outline: 'none',
-    boxSizing: 'border-box'
+    boxSizing: 'border-box' as const // <--- INI KUNCI UTAMANYA BIAR ERROR ILANG
   };
 
   return (
@@ -81,7 +82,7 @@ export default function FleetPage() {
                 <input
                   type="text"
                   placeholder={placeholder}
-                  value={form[key]}
+                  value={form[key as keyof typeof form]}
                   onChange={e => setForm(prev => ({ ...prev, [key]: e.target.value }))}
                   style={inputStyle}
                 />
