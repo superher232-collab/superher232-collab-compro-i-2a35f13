@@ -1,0 +1,28 @@
+import { Roboto_Mono, Mochiy_Pop_One } from "next/font/google";
+import "./globals.css";
+
+const robotoMono = Roboto_Mono({
+  variable: "--font-roboto-mono",
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+});
+
+const mochiyPopOne = Mochiy_Pop_One({
+  variable: "--font-mochiy",
+  subsets: ["latin"],
+  weight: "400",
+});
+
+export const metadata = {
+  title: "KOMANDO SIWeb - Monitoring Armada Dunia",
+  description:
+    "Komando SIWeb adalah platform terpadu yang dirancang untuk memantau, mengelola, dan mengoptimalkan operasional armada kapal secara real-time di seluruh dunia.",
+};
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="id" className={`${robotoMono.variable} ${mochiyPopOne.variable}`}>
+      <body>{children}</body>
+    </html>
+  );
+}
