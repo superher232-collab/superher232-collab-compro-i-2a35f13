@@ -1,20 +1,21 @@
 import { sql } from '@vercel/postgres';
 import { NextResponse } from 'next/server';
 
+// ============================================================
+// GET — Ambil data armada berdasarkan role
+// ============================================================
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
     const username = searchParams.get('username');
 
-    // Validasi input
     if (!username || username.trim() === '') {
       return NextResponse.json(
         { error: 'Username diperlukan' },
-        { status: 400 } // fix: 400 bukan 401
+        { status: 400 }
       );
     }
 
-    // 1. Cek role dan id_pelanggan dari tb_akun
     const userCheck = await sql`
       SELECT role, id_pelanggan 
       FROM tb_akun 
@@ -31,37 +32,39 @@ export async function GET(request) {
 
     const { role, id_pelanggan } = userCheck.rows[0];
 
-    // 2. Logika akses berdasarkan role
     let dataArmada;
 
     if (role === 'Admin') {
-      // Admin: lihat semua kapal beserta info pelanggan terkait
       dataArmada = await sql`
         SELECT 
-          k.*,
-          a.username AS nama_pelanggan
-        FROM tb_kapal k
-        LEFT JOIN tb_akun a ON a.id_pelanggan = k.id_pelanggan
-        ORDER BY k.id ASC;
+          id_kapal          AS id,
+          nama_kapal        AS name,
+          jenis_kapal       AS type,
+          status_pergerakan AS status,
+          lokasi_terkini    AS location,
+          tujuan            AS destination,
+          eta,
+          latitude,
+          longitude
+        FROM tb_kapal 
+        ORDER BY id_kapal ASC;
       `;
     } else if (role === 'User') {
-      // User: hanya lihat kapal milik mereka sendiri
-      // fix: filter by id_pelanggan, bukan LIMIT 2
-      if (!id_pelanggan) {
-        return NextResponse.json(
-          { error: 'Akun user tidak memiliki id_pelanggan yang valid' },
-          { status: 403 }
-        );
-      }
-
       dataArmada = await sql`
-        SELECT *
-        FROM tb_kapal
-        WHERE id_pelanggan = ${id_pelanggan}
-        ORDER BY id ASC;
+        SELECT 
+          id_kapal          AS id,
+          nama_kapal        AS name,
+          jenis_kapal       AS type,
+          status_pergerakan AS status,
+          lokasi_terkini    AS location,
+          tujuan            AS destination,
+          eta,
+          latitude,
+          longitude
+        FROM tb_kapal 
+        ORDER BY id_kapal ASC;
       `;
     } else {
-      // Role tidak dikenal — jangan kasih data apapun
       return NextResponse.json(
         { error: `Role '${role}' tidak dikenali sistem` },
         { status: 403 }
@@ -77,11 +80,135 @@ export async function GET(request) {
     }, { status: 200 });
 
   } catch (error) {
-    // Log error asli di server — jangan dibuang
     console.error('[GET /api/kapal]', error);
-
     return NextResponse.json(
       { error: 'Gagal konek ke database', detail: error.message },
+      { status: 500 }
+    );
+  }
+}
+
+// ============================================================
+// POST — Tambah kapal baru (Admin only)
+// ============================================================
+export async function POST(request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const username = searchParams.get('username');
+
+    if (!username || username.trim() === '') {
+      return NextResponse.json(
+        { error: 'Username diperlukan' },
+        { status: 400 }
+      );
+    }
+
+    const userCheck = await sql`
+      SELECT role FROM tb_akun WHERE username = ${username} LIMIT 1;
+    `;
+
+    if (userCheck.rowCount === 0) {
+      return NextResponse.json({ error: 'Akun tidak ditemukan' }, { status: 404 });
+    }
+
+    if (userCheck.rows[0].role !== 'Admin') {
+      return NextResponse.json({ error: 'Hanya Admin yang bisa menambah kapal' }, { status: 403 });
+    }
+
+    const body = await request.json();
+    const { name, type, status, location, destination, eta } = body;
+
+    if (!name || !type || !status) {
+      return NextResponse.json(
+        { error: 'Field name, type, dan status wajib diisi' },
+        { status: 400 }
+      );
+    }
+
+    const result = await sql`
+      INSERT INTO tb_kapal (nama_kapal, jenis_kapal, status_pergerakan, lokasi_terkini, tujuan, eta)
+      VALUES (
+        ${name},
+        ${type},
+        ${status},
+        ${location    ?? null},
+        ${destination ?? null},
+        ${eta         ?? null}
+      )
+      RETURNING 
+        id_kapal          AS id,
+        nama_kapal        AS name,
+        jenis_kapal       AS type,
+        status_pergerakan AS status,
+        lokasi_terkini    AS location,
+        tujuan            AS destination,
+        eta;
+    `;
+
+    return NextResponse.json({
+      status: 'success',
+      kapal: result.rows[0]
+    }, { status: 201 });
+
+  } catch (error) {
+    console.error('[POST /api/kapal]', error);
+    return NextResponse.json(
+      { error: 'Gagal menambah kapal', detail: error.message },
+      { status: 500 }
+    );
+  }
+}
+
+// ============================================================
+// DELETE — Hapus kapal by ID (Admin only)
+// ============================================================
+export async function DELETE(request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const id       = searchParams.get('id');
+    const username = searchParams.get('username');
+
+    if (!username || username.trim() === '') {
+      return NextResponse.json({ error: 'Username diperlukan' }, { status: 400 });
+    }
+
+    if (!id) {
+      return NextResponse.json({ error: 'ID kapal diperlukan' }, { status: 400 });
+    }
+
+    const userCheck = await sql`
+      SELECT role FROM tb_akun WHERE username = ${username} LIMIT 1;
+    `;
+
+    if (userCheck.rowCount === 0) {
+      return NextResponse.json({ error: 'Akun tidak ditemukan' }, { status: 404 });
+    }
+
+    if (userCheck.rows[0].role !== 'Admin') {
+      return NextResponse.json({ error: 'Hanya Admin yang bisa menghapus kapal' }, { status: 403 });
+    }
+
+    const kapalCheck = await sql`
+      SELECT id_kapal FROM tb_kapal WHERE id_kapal = ${id} LIMIT 1;
+    `;
+
+    if (kapalCheck.rowCount === 0) {
+      return NextResponse.json({ error: 'Kapal tidak ditemukan' }, { status: 404 });
+    }
+
+    const result = await sql`
+      DELETE FROM tb_kapal WHERE id_kapal = ${id} RETURNING *;
+    `;
+
+    return NextResponse.json({
+      status: 'success',
+      deleted: result.rows[0]
+    }, { status: 200 });
+
+  } catch (error) {
+    console.error('[DELETE /api/kapal]', error);
+    return NextResponse.json(
+      { error: 'Gagal menghapus kapal', detail: error.message },
       { status: 500 }
     );
   }
