@@ -11,9 +11,7 @@ export default function FleetPage() {
       location: 'Laut Jawa',
       destination: 'Tanjung Perak',
       eta: '2026-04-12 08:30',
-      speed: '22 kn',
       cargo: 'Elektronik',
-      fuel: 71.76487806204447,
       update: 'Baru saja'
     },
     {
@@ -24,9 +22,7 @@ export default function FleetPage() {
       location: 'Pelabuhan Tanjung Priok',
       destination: 'Tanjung Priok',
       eta: 'Tiba',
-      speed: '0 kn',
       cargo: 'Batu Bara',
-      fuel: 45,
       update: '5 mnt lalu'
     },
     {
@@ -37,9 +33,7 @@ export default function FleetPage() {
       location: 'Selat Sunda',
       destination: 'Pelabuhan Merak',
       eta: '2026-04-11 14:00',
-      speed: '12.3 kn',
       cargo: 'Minyak Mentah',
-      fuel: 62,
       update: '1 mnt lalu'
     },
     {
@@ -50,9 +44,7 @@ export default function FleetPage() {
       location: 'Galangan Kapal Batam',
       destination: 'Batam',
       eta: 'Dalam Perawatan',
-      speed: '0 kn',
       cargo: '-',
-      fuel: 88,
       update: '10 mnt lalu'
     },
     {
@@ -63,9 +55,7 @@ export default function FleetPage() {
       location: 'Laut Sulawesi',
       destination: 'Makassar',
       eta: '2026-04-10 16:45',
-      speed: '16.5 kn',
       cargo: 'Suku Cadang Mesin',
-      fuel: 48.303282526024246,
       update: 'Baru saja'
     },
     {
@@ -76,9 +66,7 @@ export default function FleetPage() {
       location: 'Selat Malaka',
       destination: 'Belawan',
       eta: '2026-04-09 22:15',
-      speed: '15.6 kn',
       cargo: 'Beras',
-      fuel: 64.87290058700365,
       update: 'Baru saja'
     },
     {
@@ -89,9 +77,7 @@ export default function FleetPage() {
       location: 'Pelabuhan Tanjung Emas',
       destination: 'Semarang',
       eta: 'Tiba',
-      speed: '0 kn',
       cargo: 'LNG',
-      fuel: 34,
       update: '7 mnt lalu'
     },
     {
@@ -102,9 +88,7 @@ export default function FleetPage() {
       location: 'Laut Banda',
       destination: 'Sorong',
       eta: '2026-04-13 10:00',
-      speed: '20.9 kn',
       cargo: 'Barang Konsumsi',
-      fuel: 75.96464635462132,
       update: 'Baru saja'
     }
   ];
@@ -202,24 +186,8 @@ export default function FleetPage() {
               <span style={{ color: 'var(--text-muted, #8B7BA8)' }}>Perkiraan Tiba</span>
               <span style={{ textAlign: 'right' }}>{ship.eta}</span>
               
-              <span style={{ color: 'var(--text-muted, #8B7BA8)' }}>Kecepatan</span>
-              <span style={{ textAlign: 'right', color: ship.speed !== '0 kn' ? '#22C55E' : 'white', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '4px' }}>
-                {ship.speed} {ship.speed !== '0 kn' && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#22C55E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>}
-              </span>
-              
               <span style={{ color: 'var(--text-muted, #8B7BA8)' }}>Muatan</span>
               <span style={{ textAlign: 'right' }}>{ship.cargo}</span>
-            </div>
-
-            {/* Fuel Level */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '16px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px' }}>
-                <span style={{ color: 'var(--text-muted, #8B7BA8)' }}>Tingkat Bahan Bakar</span>
-                <span>{ship.fuel === 88 ? '88%' : ship.fuel === 45 ? '45%' : ship.fuel === 34 ? '34%' : ship.fuel === 62 ? '62%' : ship.fuel + '%'}</span>
-              </div>
-              <div style={{ height: '4px', background: 'rgba(255,255,255,0.1)', borderRadius: '2px', overflow: 'hidden' }}>
-                <div style={{ height: '100%', width: ship.fuel + '%', background: ship.fuel > 50 ? '#22C55E' : ship.fuel > 30 ? '#F59E0B' : '#EF4444' }}></div>
-              </div>
             </div>
 
             {/* Footer */}

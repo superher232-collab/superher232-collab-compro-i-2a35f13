@@ -5,7 +5,7 @@ export default function MapPage() {
   const [ships, setShips] = useState([
     { id: 1, name: 'KM NUSANTARA', cx: 50, cy: 50, status: 'Di Pelabuhan', color: '#3B82F6' },
     { id: 2, name: 'KM BIMA SAKTI', cx: 54, cy: 48, status: 'Dalam Perjalanan', color: '#22C55E' },
-    { id: 3, name: 'KM SRIWIJAYA', cx: 65, cy: 60, status: 'Terlambat', color: '#F59E0B' },
+    { id: 3, name: 'KM SRIWIJAYA', cx: 65, cy: 60, status: 'Pemeliharaan Fisik', color: '#EF4444' },
     { id: 4, name: 'KM KARTINI', cx: 77, cy: 58, status: 'Dalam Perjalanan', color: '#22C55E' },
     { id: 5, name: 'KM MAJAPAHIT', cx: 80, cy: 61, status: 'Dalam Perjalanan', color: '#22C55E' },
     { id: 6, name: 'KM DEWARUCI', cx: 86, cy: 75, status: 'Dalam Perjalanan', color: '#22C55E' }
@@ -47,13 +47,10 @@ export default function MapPage() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100%', maxWidth: '1200px', margin: '0 auto', color: 'white', fontFamily: 'monospace' }}>
       
-      {/* Sub Navigation */}
       <div style={{ display: 'flex', gap: '40px', padding: '0 0 24px 0', borderBottom: '1px solid rgba(168, 85, 247, 0.2)', marginBottom: '24px' }}>
         <div style={{ color: '#A855F7', fontWeight: 'bold', cursor: 'pointer' }}>Kinerja dan wawasan</div>
-        <div style={{ color: 'var(--text-muted, #8B7BA8)', cursor: 'pointer' }}>Konsumsi Bahan Bakar</div>
-        <div style={{ color: 'var(--text-muted, #8B7BA8)', cursor: 'pointer' }}>Efisiensi</div>
-        <div style={{ color: 'var(--text-muted, #8B7BA8)', cursor: 'pointer' }}>Laporan</div>
-        <div style={{ color: 'var(--text-muted, #8B7BA8)', cursor: 'pointer' }}>Tren</div>
+        <div style={{ color: 'var(--text-muted, #8B7BA8)', cursor: 'pointer' }}>Laporan Logbook</div>
+        <div style={{ color: 'var(--text-muted, #8B7BA8)', cursor: 'pointer' }}>Tren Pergerakan</div>
       </div>
 
       {/* Main Map Container */}
@@ -89,8 +86,8 @@ export default function MapPage() {
               <span style={{ fontSize: '11px', color: 'white' }}>Di Pelabuhan</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <div style={{ width: '8px', height: '8px', background: '#F59E0B', borderRadius: '50%', boxShadow: '0 0 8px #F59E0B' }}></div>
-              <span style={{ fontSize: '11px', color: 'white' }}>Terlambat</span>
+              <div style={{ width: '8px', height: '8px', background: '#EF4444', borderRadius: '50%', boxShadow: '0 0 8px #EF4444' }}></div>
+              <span style={{ fontSize: '11px', color: 'white' }}>Pemeliharaan Fisik</span>
             </div>
           </div>
 

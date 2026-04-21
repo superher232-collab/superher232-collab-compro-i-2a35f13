@@ -99,34 +99,34 @@ function DashboardContent() {
           
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
             <div style={{ background: 'rgba(0,0,0,0.3)', padding: '16px', borderRadius: '4px' }}>
-              <div style={{ fontSize: '10px', color: 'var(--text-muted, #8B7BA8)', marginBottom: '8px' }}>Efisiensi Bahan Bakar</div>
+              <div style={{ fontSize: '10px', color: 'var(--text-muted, #8B7BA8)', marginBottom: '8px' }}>Akurasi Pelacakan GPS</div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                <span style={{ fontSize: '20px', color: '#C084FC' }}>86%</span>
-                <span style={{ fontSize: '10px', color: '#22C55E' }}>↗ +2.3%</span>
+                <span style={{ fontSize: '20px', color: '#C084FC' }}>99.2%</span>
+                <span style={{ fontSize: '10px', color: '#22C55E' }}>Stabil</span>
               </div>
             </div>
             
             <div style={{ background: 'rgba(0,0,0,0.3)', padding: '16px', borderRadius: '4px' }}>
-              <div style={{ fontSize: '10px', color: 'var(--text-muted, #8B7BA8)', marginBottom: '8px' }}>Pengiriman Tepat Waktu</div>
+              <div style={{ fontSize: '10px', color: 'var(--text-muted, #8B7BA8)', marginBottom: '8px' }}>Stabilitas Koneksi</div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                <span style={{ fontSize: '20px', color: '#3B82F6' }}>91%</span>
-                <span style={{ fontSize: '10px', color: '#EF4444' }}>↘ -1.2%</span>
+                <span style={{ fontSize: '20px', color: '#3B82F6' }}>100%</span>
+                <span style={{ fontSize: '10px', color: '#22C55E' }}>Optimal</span>
               </div>
             </div>
             
             <div style={{ background: 'rgba(0,0,0,0.3)', padding: '16px', borderRadius: '4px' }}>
-              <div style={{ fontSize: '10px', color: 'var(--text-muted, #8B7BA8)', marginBottom: '8px' }}>Pemanfaatan Armada</div>
+              <div style={{ fontSize: '10px', color: 'var(--text-muted, #8B7BA8)', marginBottom: '8px' }}>Kesiapan Armada</div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                <span style={{ fontSize: '20px', color: '#22C55E' }}>87.5%</span>
-                <span style={{ fontSize: '10px', color: '#22C55E' }}>↗ +3%</span>
+                <span style={{ fontSize: '20px', color: '#22C55E' }}>92.5%</span>
+                <span style={{ fontSize: '10px', color: '#22C55E' }}>Aman</span>
               </div>
             </div>
             
             <div style={{ background: 'rgba(0,0,0,0.3)', padding: '16px', borderRadius: '4px' }}>
-              <div style={{ fontSize: '10px', color: 'var(--text-muted, #8B7BA8)', marginBottom: '8px' }}>Waktu Pelayaran Avg</div>
+              <div style={{ fontSize: '10px', color: 'var(--text-muted, #8B7BA8)', marginBottom: '8px' }}>Pembaruan Sinkronisasi</div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                <span style={{ fontSize: '20px', color: '#F59E0B' }}>12.4 Hari</span>
-                <span style={{ fontSize: '10px', color: '#22C55E' }}>↗ -8%</span>
+                <span style={{ fontSize: '20px', color: '#F59E0B' }}>&lt; 1 Menit</span>
+                <span style={{ fontSize: '10px', color: '#22C55E' }}>Real-time</span>
               </div>
             </div>
           </div>
@@ -154,7 +154,7 @@ function DashboardContent() {
             </div>
 
             <div style={{ background: 'rgba(0,0,0,0.3)', padding: '12px', borderRadius: '4px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: '11px', color: 'var(--text-muted, #8B7BA8)' }}>Sensor Bahan Bakar</span>
+              <span style={{ fontSize: '11px', color: 'var(--text-muted, #8B7BA8)' }}>Sistem Keamanan Logbook</span>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#22C55E', boxShadow: '0 0 6px #22C55E' }}></div>
                 <span style={{ fontSize: '10px', color: '#22C55E' }}>Aktif</span>
@@ -175,10 +175,10 @@ function DashboardContent() {
       {/* Grid 2 Columns for Bottom Section */}
       <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '16px' }}>
         
-        {/* Tren Pendapatan Chart */}
+        {/* Tren Aktivitas Chart */}
         <div style={{ background: 'rgba(20, 10, 36, 0.7)', border: '1px solid rgba(168, 85, 247, 0.3)', borderRadius: '4px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px', minHeight: '300px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div style={{ fontSize: '11px', fontWeight: 'bold', color: 'white', letterSpacing: '1px' }}>TREN PENDAPATAN</div>
+            <div style={{ fontSize: '11px', fontWeight: 'bold', color: 'white', letterSpacing: '1px' }}>TREN AKTIVITAS ARMADA</div>
             <div style={{ fontSize: '10px', color: 'var(--text-muted, #8B7BA8)' }}>6 Bulan Terakhir</div>
           </div>
           
@@ -244,7 +244,7 @@ function DashboardContent() {
                 <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#22C55E' }}></div>
               </div>
               <span style={{ fontSize: '9px', color: 'var(--text-muted, #8B7BA8)' }}>Laut Jawa</span>
-              <span style={{ fontSize: '9px', color: 'var(--text-muted, #8B7BA8)' }}>ETA: 2 jam</span>
+              <span style={{ fontSize: '9px', color: 'var(--text-muted, #8B7BA8)' }}>Status: Update Live</span>
             </div>
 
             <div style={{ background: 'rgba(0,0,0,0.3)', padding: '12px', borderRadius: '4px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
@@ -253,16 +253,16 @@ function DashboardContent() {
                 <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#3B82F6' }}></div>
               </div>
               <span style={{ fontSize: '9px', color: 'var(--text-muted, #8B7BA8)' }}>Pelabuhan Tanjung Priok</span>
-              <span style={{ fontSize: '9px', color: 'var(--text-muted, #8B7BA8)' }}>ETA: Tiba</span>
+              <span style={{ fontSize: '9px', color: 'var(--text-muted, #8B7BA8)' }}>Status: Selesai</span>
             </div>
 
             <div style={{ background: 'rgba(0,0,0,0.3)', padding: '12px', borderRadius: '4px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span style={{ fontSize: '10px', color: 'white', fontWeight: 'bold' }}>KM SRIWIJAYA</span>
-                <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#F59E0B' }}></div>
+                <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#EF4444' }}></div>
               </div>
               <span style={{ fontSize: '9px', color: 'var(--text-muted, #8B7BA8)' }}>Selat Sunda</span>
-              <span style={{ fontSize: '9px', color: 'var(--text-muted, #8B7BA8)' }}>ETA: 4 jam</span>
+              <span style={{ fontSize: '9px', color: 'var(--text-muted, #8B7BA8)' }}>Status: Inspeksi</span>
             </div>
 
             <div style={{ background: 'rgba(0,0,0,0.3)', padding: '12px', borderRadius: '4px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
@@ -271,7 +271,7 @@ function DashboardContent() {
                 <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#22C55E' }}></div>
               </div>
               <span style={{ fontSize: '9px', color: 'var(--text-muted, #8B7BA8)' }}>Laut Sulawesi</span>
-              <span style={{ fontSize: '9px', color: 'var(--text-muted, #8B7BA8)' }}>ETA: 6 jam</span>
+              <span style={{ fontSize: '9px', color: 'var(--text-muted, #8B7BA8)' }}>Status: Terpantau</span>
             </div>
           </div>
         </div>
@@ -283,8 +283,8 @@ function DashboardContent() {
 
 export default function RingkasanDashboard() {
   return (
-    <Suspense fallback={<div style={{ color: 'white' }}>Loading map data...</div>}>
+    <React.Suspense fallback={<div style={{ color: 'white' }}>Loading map data...</div>}>
       <DashboardContent />
-    </Suspense>
+    </React.Suspense>
   );
 }
