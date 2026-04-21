@@ -98,32 +98,41 @@ export default function DashboardLayout({ children }) {
                 boxShadow: '0 10px 25px rgba(0,0,0,0.5)',
                 zIndex: 100
               }}>
-                <Link href="/dashboard" style={{
+                <button onClick={() => window.location.href='/dashboard?filter=semua'} style={{
                   padding: '10px 16px',
-                  color: pathname === '/dashboard' ? 'white' : 'var(--text-light, #C7B8EA)',
+                  color: 'var(--text-light, #C7B8EA)',
                   textDecoration: 'none',
                   fontSize: '12px',
-                  background: pathname === '/dashboard' ? 'rgba(168, 85, 247, 0.1)' : 'transparent',
-                  borderLeft: pathname === '/dashboard' ? '2px solid #A855F7' : '2px solid transparent'
-                }}>Ringkasan</Link>
-                <Link href="/dashboard/pemeliharaan" style={{
+                  background: 'transparent',
+                  border: 'none',
+                  textAlign: 'left',
+                  cursor: 'pointer',
+                  borderLeft: '2px solid transparent'
+                }}>Total Armada Aktif</button>
+                <button onClick={() => window.location.href='/dashboard?filter=berlayar'} style={{
                   padding: '10px 16px',
-                  color: pathname === '/dashboard/pemeliharaan' ? 'white' : 'var(--text-light, #C7B8EA)',
+                  color: 'var(--text-light, #C7B8EA)',
                   textDecoration: 'none',
                   fontSize: '12px',
-                  background: pathname === '/dashboard/pemeliharaan' ? 'rgba(168, 85, 247, 0.1)' : 'transparent',
-                  borderLeft: pathname === '/dashboard/pemeliharaan' ? '2px solid #A855F7' : '2px solid transparent',
+                  background: 'transparent',
+                  border: 'none',
+                  textAlign: 'left',
+                  cursor: 'pointer',
+                  borderLeft: '2px solid transparent',
                   borderTop: '1px solid rgba(255,255,255,0.05)'
-                }}>Pemeliharaan</Link>
-                <Link href="/dashboard/peringatan" style={{
+                }}>Sedang Berlayar</button>
+                <button onClick={() => window.location.href='/dashboard?filter=sandar'} style={{
                   padding: '10px 16px',
-                  color: pathname === '/dashboard/peringatan' ? 'white' : 'var(--text-light, #C7B8EA)',
+                  color: 'var(--text-light, #C7B8EA)',
                   textDecoration: 'none',
                   fontSize: '12px',
-                  background: pathname === '/dashboard/peringatan' ? 'rgba(168, 85, 247, 0.1)' : 'transparent',
-                  borderLeft: pathname === '/dashboard/peringatan' ? '2px solid #A855F7' : '2px solid transparent',
+                  background: 'transparent',
+                  border: 'none',
+                  textAlign: 'left',
+                  cursor: 'pointer',
+                  borderLeft: '2px solid transparent',
                   borderTop: '1px solid rgba(255,255,255,0.05)'
-                }}>Peringatan</Link>
+                }}>Tiba di Tujuan</button>
               </div>
             )}
           </div>

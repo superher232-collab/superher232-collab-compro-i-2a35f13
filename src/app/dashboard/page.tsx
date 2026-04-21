@@ -1,16 +1,42 @@
 "use client";
-import React from 'react';
+import React, { Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 
-export default function RingkasanDashboard() {
+function DashboardContent() {
+  const searchParams = useSearchParams();
+  const filter = searchParams.get('filter') || 'semua'; // 'semua', 'berlayar', 'sandar'
+
+  // Dummy ships positions
+  const ships = [
+    { id: 1, x: 200, y: 150, status: 'berlayar', name: 'KM NUSANTARA' },
+    { id: 2, x: 500, y: 100, status: 'sandar', name: 'KM BIMA SAKTI' },
+    { id: 3, x: 350, y: 300, status: 'berlayar', name: 'KM KARTINI' },
+    { id: 4, x: 700, y: 250, status: 'sandar', name: 'KM DEWARUCI' },
+  ];
+
+  const filteredShips = ships.filter(ship => filter === 'semua' || ship.status === filter);
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       
-      {/* Secondary Nav */}
-      <div style={{ display: 'flex', gap: '32px', borderBottom: '1px solid var(--border-purple, rgba(168, 85, 247, 0.2))', paddingBottom: '16px' }}>
-        <div style={{ color: '#A855F7', fontSize: '12px', fontWeight: 'bold', letterSpacing: '1px' }}>Pelacakan geografis kapal</div>
-        <div style={{ color: 'var(--text-muted, #8B7BA8)', fontSize: '12px', letterSpacing: '1px' }}>Tampilan Global</div>
-        <div style={{ color: 'var(--text-muted, #8B7BA8)', fontSize: '12px', letterSpacing: '1px' }}>Tampilan Regional</div>
-        <div style={{ color: 'var(--text-muted, #8B7BA8)', fontSize: '12px', letterSpacing: '1px' }}>Perencanaan Rute</div>
+      {/* Hero Section Map */}
+      <div style={{ width: '100%', height: '300px', background: 'rgba(20, 10, 36, 0.7)', border: '1px solid rgba(168, 85, 247, 0.3)', borderRadius: '4px', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: '16px', left: '16px', color: '#A855F7', fontSize: '14px', fontWeight: 'bold', letterSpacing: '1px', zIndex: 10 }}>PETA ARMADA GLOBAL ({filter.toUpperCase()})</div>
+        {/* Simple map background visualization */}
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(168, 85, 247, 0.1)" strokeWidth="1"/>
+          </pattern>
+          <rect width="100%" height="100%" fill="url(#grid)" />
+          {/* Render ships */}
+          {filteredShips.map(ship => (
+            <g key={ship.id} transform={`translate(${ship.x}, ${ship.y})`}>
+              <circle cx="0" cy="0" r="6" fill={ship.status === 'berlayar' ? '#22C55E' : '#3B82F6'} />
+              <circle cx="0" cy="0" r="12" fill="none" stroke={ship.status === 'berlayar' ? '#22C55E' : '#3B82F6'} strokeWidth="2" opacity="0.5" />
+              <text x="10" y="4" fill="white" fontSize="10px" fontWeight="bold">{ship.name}</text>
+            </g>
+          ))}
+        </svg>
       </div>
 
       {/* Top 4 Stats */}
@@ -252,5 +278,13 @@ export default function RingkasanDashboard() {
 
       </div>
     </div>
+  );
+}
+
+export default function RingkasanDashboard() {
+  return (
+    <Suspense fallback={<div style={{ color: 'white' }}>Loading map data...</div>}>
+      <DashboardContent />
+    </Suspense>
   );
 }

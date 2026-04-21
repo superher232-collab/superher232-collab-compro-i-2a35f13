@@ -1,7 +1,49 @@
-// src/app/dashboard/map/page.tsx
-import React from 'react';
+"use client";
+import React, { useState, useEffect } from 'react';
 
 export default function MapPage() {
+  const [ships, setShips] = useState([
+    { id: 1, name: 'KM NUSANTARA', cx: 50, cy: 50, status: 'Di Pelabuhan', color: '#3B82F6' },
+    { id: 2, name: 'KM BIMA SAKTI', cx: 54, cy: 48, status: 'Dalam Perjalanan', color: '#22C55E' },
+    { id: 3, name: 'KM SRIWIJAYA', cx: 65, cy: 60, status: 'Terlambat', color: '#F59E0B' },
+    { id: 4, name: 'KM KARTINI', cx: 77, cy: 58, status: 'Dalam Perjalanan', color: '#22C55E' },
+    { id: 5, name: 'KM MAJAPAHIT', cx: 80, cy: 61, status: 'Dalam Perjalanan', color: '#22C55E' },
+    { id: 6, name: 'KM DEWARUCI', cx: 86, cy: 75, status: 'Dalam Perjalanan', color: '#22C55E' }
+  ]);
+
+  // Polling per 60 seconds to move ships
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShips(prevShips => prevShips.map(ship => {
+        if (ship.status !== 'Dalam Perjalanan') return ship;
+        // Randomly adjust cx and cy slightly
+        const moveX = (Math.random() - 0.5) * 2;
+        const moveY = (Math.random() - 0.5) * 2;
+        return {
+          ...ship,
+          cx: Math.max(10, Math.min(90, ship.cx + moveX)),
+          cy: Math.max(10, Math.min(90, ship.cy + moveY))
+        };
+      }));
+    }, 60000); // 60 seconds polling as requested
+    
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleShipClick = (shipId) => {
+    // Manual status update
+    setShips(prevShips => prevShips.map(ship => {
+      if (ship.id === shipId) {
+        // Toggle status as an example of manual override
+        const nextStatus = ship.status === 'Dalam Perjalanan' ? 'Di Pelabuhan' : 'Dalam Perjalanan';
+        const nextColor = nextStatus === 'Dalam Perjalanan' ? '#22C55E' : '#3B82F6';
+        console.log(`Manual Status Update: ${ship.name} is now [${nextStatus}]. Antigravity AI notification triggered.`);
+        return { ...ship, status: nextStatus, color: nextColor };
+      }
+      return ship;
+    }));
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100%', maxWidth: '1200px', margin: '0 auto', color: 'white', fontFamily: 'monospace' }}>
       
@@ -29,7 +71,7 @@ export default function MapPage() {
         {/* Map Area */}
         <div style={{ background: '#0a0510', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '4px', height: '500px', position: 'relative', overflow: 'hidden' }}>
           
-          {/* Live Tracking Button */}
+          {/* Live Tracking Label */}
           <div style={{ position: 'absolute', top: '16px', right: '16px', background: 'rgba(20, 10, 36, 0.8)', border: '1px solid rgba(255,255,255,0.1)', padding: '6px 12px', borderRadius: '4px', display: 'flex', alignItems: 'center', gap: '8px', zIndex: 10 }}>
             <div style={{ width: '6px', height: '6px', background: '#22C55E', borderRadius: '50%', boxShadow: '0 0 8px #22C55E' }}></div>
             <span style={{ fontSize: '10px', color: 'var(--text-muted, #8B7BA8)', fontWeight: 'bold', letterSpacing: '0.5px' }}>PELACAKAN LANGSUNG</span>
@@ -59,33 +101,23 @@ export default function MapPage() {
             {/* Trail 2 */}
             <line x1="25%" y1="75%" x2="65%" y2="60%" stroke="rgba(168, 85, 247, 0.3)" strokeWidth="1" strokeDasharray="4 4" />
             
-            {/* Dots */}
-            {/* Blue dot */}
-            <circle cx="50%" cy="50%" r="5" fill="none" stroke="#3B82F6" strokeWidth="2" />
-            <circle cx="50%" cy="50%" r="15" fill="rgba(59, 130, 246, 0.2)" />
-            
-            {/* Green dot 1 */}
-            <circle cx="54%" cy="48%" r="4" fill="#22C55E" />
-            <circle cx="54%" cy="48%" r="12" fill="rgba(34, 197, 94, 0.2)" />
-            
-            {/* Orange dot */}
-            <circle cx="65%" cy="60%" r="4" fill="#F59E0B" />
-            <circle cx="65%" cy="60%" r="6" fill="none" stroke="#F59E0B" strokeWidth="1.5" />
-            <circle cx="65%" cy="60%" r="15" fill="rgba(245, 158, 11, 0.15)" />
-
-            {/* Green dot 2 */}
-            <circle cx="77%" cy="58%" r="4" fill="#22C55E" />
-            <circle cx="77%" cy="58%" r="12" fill="rgba(34, 197, 94, 0.2)" />
-
-            {/* Green dot 3 */}
-            <circle cx="80%" cy="61%" r="4" fill="#22C55E" />
-            <circle cx="80%" cy="61%" r="12" fill="rgba(34, 197, 94, 0.2)" />
-
-            {/* Green dot 4 */}
-            <circle cx="86%" cy="75%" r="4" fill="#22C55E" />
-            <circle cx="86%" cy="75%" r="12" fill="rgba(34, 197, 94, 0.2)" />
+            {/* Render Dynamic Ships */}
+            {ships.map(ship => (
+              <g 
+                key={ship.id} 
+                className="ship-node"
+                style={{ cursor: 'pointer', transition: 'all 0.5s ease-in-out' }} 
+                onClick={() => handleShipClick(ship.id)}
+              >
+                <circle cx={`${ship.cx}%`} cy={`${ship.cy}%`} r="6" fill="transparent" /> {/* Hitbox */}
+                <circle cx={`${ship.cx}%`} cy={`${ship.cy}%`} r="4" fill={ship.color} />
+                <circle cx={`${ship.cx}%`} cy={`${ship.cy}%`} r={ship.status === 'Dalam Perjalanan' ? '12' : '15'} fill={ship.color} opacity={ship.status === 'Dalam Perjalanan' ? '0.2' : '0.1'} stroke={ship.status !== 'Dalam Perjalanan' ? ship.color : 'none'} strokeWidth="1" />
+                <text x={`${ship.cx + 2}%`} y={`${ship.cy - 1}%`} fill="white" fontSize="10px" fontWeight="bold" style={{ pointerEvents: 'none' }}>
+                  {ship.name}
+                </text>
+              </g>
+            ))}
           </svg>
-
         </div>
       </div>
     </div>
