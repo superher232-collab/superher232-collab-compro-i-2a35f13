@@ -55,7 +55,7 @@ function DashboardContent() {
       </div>
 
       {/* Top 4 Stats */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
         <div style={{ background: 'var(--bg-card, #130a24)', border: '1px solid rgba(168, 85, 247, 0.15)', borderRadius: '12px', padding: '20px', display: 'flex', flexDirection: 'column', gap: '12px', transition: 'transform 0.2s', cursor: 'pointer' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <span style={{ fontSize: '12px', color: 'var(--text-muted, #8B7BA8)', letterSpacing: '0.5px' }}>Total Kapal</span>
@@ -98,10 +98,10 @@ function DashboardContent() {
       </div>
 
       {/* Modern Minimalist Summary Section instead of Trading Charts/Tables */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.5fr) minmax(0, 1fr)', gap: '24px', marginTop: '8px' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '24px', marginTop: '8px' }}>
         
         {/* Narrative Summary */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div style={{ flex: '1 1 400px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <div style={{ background: 'var(--bg-card, #130a24)', border: '1px solid rgba(168, 85, 247, 0.15)', borderRadius: '16px', padding: '32px', position: 'relative', overflow: 'hidden' }}>
             {/* Soft ambient background glow */}
             <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: '150px', height: '150px', background: 'rgba(168, 85, 247, 0.1)', filter: 'blur(40px)', borderRadius: '50%' }}></div>
@@ -136,7 +136,7 @@ function DashboardContent() {
         </div>
 
         {/* Status Component */}
-        <div style={{ background: 'linear-gradient(180deg, rgba(20, 10, 36, 0.8) 0%, rgba(20, 10, 36, 0.4) 100%)', border: '1px solid rgba(168, 85, 247, 0.1)', borderRadius: '16px', padding: '32px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        <div style={{ flex: '1 1 250px', background: 'linear-gradient(180deg, rgba(20, 10, 36, 0.8) 0%, rgba(20, 10, 36, 0.4) 100%)', border: '1px solid rgba(168, 85, 247, 0.1)', borderRadius: '16px', padding: '32px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
             <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(34, 197, 94, 0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(34, 197, 94, 0.2)' }}>
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#22C55E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>

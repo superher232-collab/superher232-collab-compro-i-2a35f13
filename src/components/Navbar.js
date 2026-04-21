@@ -47,15 +47,7 @@ export default function Navbar() {
 
         {/* SISI KANAN: NAVIGASI */}
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <ul style={{ 
-            display: 'flex', 
-            flexDirection: 'row', 
-            alignItems: 'center', 
-            listStyle: 'none', 
-            gap: '35px',
-            margin: 0, 
-            padding: 0 
-          }}>
+          <ul className={`navbar-nav ${mobileOpen ? 'open' : ''}`}>
             <li><a href="#tentang" style={{ color: '#ccc', textDecoration: 'none', fontSize: '0.9rem', fontWeight: '500' }}>Tentang</a></li>
             <li><a href="#fitur" style={{ color: '#ccc', textDecoration: 'none', fontSize: '0.9rem', fontWeight: '500' }}>Fitur</a></li>
             <li><a href="#keunggulan" style={{ color: '#ccc', textDecoration: 'none', fontSize: '0.9rem', fontWeight: '500' }}>Keunggulan</a></li>
@@ -68,12 +60,31 @@ export default function Navbar() {
                 textDecoration: 'none',
                 fontWeight: 'bold',
                 fontSize: '0.85rem',
+                display: 'inline-block',
                 boxShadow: '0 4px 15px rgba(126, 34, 206, 0.3)'
               }}>
                 MASUK SISTEM
               </a>
             </li>
           </ul>
+          
+          {/* Hamburger Menu Toggle */}
+          <button className="mobile-toggle" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Toggle Menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              {mobileOpen ? (
+                <>
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </>
+              ) : (
+                <>
+                  <line x1="3" y1="12" x2="21" y2="12"></line>
+                  <line x1="3" y1="6" x2="21" y2="6"></line>
+                  <line x1="3" y1="18" x2="21" y2="18"></line>
+                </>
+              )}
+            </svg>
+          </button>
         </div>
       </div>
     </nav>

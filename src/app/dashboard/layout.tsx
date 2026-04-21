@@ -23,6 +23,8 @@ export default function DashboardLayout({ children }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        gap: '16px',
         padding: '16px 24px',
         borderBottom: '1px solid var(--border-purple, rgba(168, 85, 247, 0.3))',
         background: 'rgba(10, 4, 20, 0.95)',

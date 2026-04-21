@@ -29,14 +29,13 @@ export default function Home() {
       {}
       <main style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
         <Hero />
-        {}
-        <div style={{ width: '100%', display: "flex", flexDirection: "column", gap: "32px" }}>
+        <div className="main-content">
           <About />
           <Features />
           <Advantages />
           <Gallery />
+          <CTA />
         </div>
-        <CTA />
         <Footer />
       </main>
     </div>
