@@ -87,9 +87,9 @@ function DashboardContent() {
                 <h4 style={{ color: 'white', marginBottom: '8px' }}>KENDALI NAVIGASI PUSAT</h4>
                 <p style={{ color: '#8B7BA8', fontSize: '12px', marginBottom: '16px' }}>Khusus Admin: Update status cuaca global.</p>
                 <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
-                  <button onClick={() => updateCuaca('Badai')} style={{ background: 'rgba(239, 68, 68, 0.2)', border: '1px solid #EF4444', color: 'white', padding: '8px', cursor: 'pointer' }}>Badai</button>
-                  <button onClick={() => updateCuaca('Terik')} style={{ background: 'rgba(245, 158, 11, 0.2)', border: '1px solid #F59E0B', color: 'white', padding: '8px', cursor: 'pointer' }}>Terik</button>
-                  <button onClick={() => updateCuaca('Normal')} style={{ background: 'rgba(34, 197, 94, 0.2)', border: '1px solid #22C55E', color: 'white', padding: '8px', cursor: 'pointer' }}>Normal</button>
+                  <button onClick={() => updateCuaca('Badai Ekstrem')} style={{ background: cuaca === 'Badai Ekstrem' ? '#EF4444' : 'rgba(239, 68, 68, 0.2)', border: '1px solid #EF4444', color: 'white', padding: '8px 12px', borderRadius: '4px', fontSize: '11px', cursor: 'pointer', transition: 'all 0.3s' }}>Badai Ekstrem</button>
+                  <button onClick={() => updateCuaca('Terik Gersang')} style={{ background: cuaca === 'Terik Gersang' ? '#F59E0B' : 'rgba(245, 158, 11, 0.2)', border: '1px solid #F59E0B', color: 'white', padding: '8px 12px', borderRadius: '4px', fontSize: '11px', cursor: 'pointer', transition: 'all 0.3s' }}>Terik Gersang</button>
+                  <button onClick={() => updateCuaca('Normal')} style={{ background: cuaca === 'Normal' ? '#22C55E' : 'rgba(34, 197, 94, 0.2)', border: '1px solid #22C55E', color: 'white', padding: '8px 12px', borderRadius: '4px', fontSize: '11px', cursor: 'pointer', transition: 'all 0.3s' }}>Normal</button>
                 </div>
               </>
             ) : (

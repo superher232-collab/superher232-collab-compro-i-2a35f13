@@ -35,16 +35,28 @@ export const DashboardProvider = ({ children }) => {
                 console.error("Gagal menarik data dari API.");
                 // Dummy fallback as safe measure
                 setArmada([
-                    { id: 1, name: 'KM Nusantara', status: 'Dalam Perjalanan', currentPort: 'Tanjung Priok', destinationPort: 'Tanjung Perak', lat: -6.1, lng: 106.8, type: 'Kargo', lastUpdated: '1 Menit yang lalu' },
-                    { id: 2, name: 'KRI Bima Suci', status: 'Di Pelabuhan', currentPort: 'Tanjung Perak', destinationPort: '-', lat: -7.2, lng: 112.7, type: 'Militer', lastUpdated: 'Baru Saja' },
+                    { id: 1, name: 'KM NUSANTARA', type: 'Kapal Petikemas', status: 'DALAM PERJALANAN', statusColor: '#22C55E', location: 'Laut Jawa', destination: 'Tanjung Perak', eta: '2026-04-12 08:30', cargo: 'Elektronik', update: 'Baru saja' },
+                    { id: 2, name: 'KM BIMA SAKTI', type: 'Kapal Kargo Bulk', status: 'DI PELABUHAN', statusColor: '#3B82F6', location: 'Pelabuhan Tanjung Priok', destination: 'Tanjung Priok', eta: 'Tiba', cargo: 'Batu Bara', update: '5 mnt lalu' },
+                    { id: 3, name: 'KM SRIWIJAYA', type: 'Kapal Tanker', status: 'TERLAMBAT', statusColor: '#F59E0B', location: 'Selat Sunda', destination: 'Pelabuhan Merak', eta: '2026-04-11 14:00', cargo: 'Minyak Mentah', update: '1 mnt lalu' },
+                    { id: 4, name: 'KM GADJAH MADA', type: 'Kapal Petikemas', status: 'PEMELIHARAAN', statusColor: '#EF4444', location: 'Galangan Kapal Batam', destination: 'Batam', eta: 'Dalam Perawatan', cargo: '-', update: '10 mnt lalu' },
+                    { id: 5, name: 'KM KARTINI', type: 'Kapal Kargo', status: 'DALAM PERJALANAN', statusColor: '#22C55E', location: 'Laut Sulawesi', destination: 'Makassar', eta: '2026-04-10 16:45', cargo: 'Suku Cadang Mesin', update: 'Baru saja' },
+                    { id: 6, name: 'KM MAJAPAHIT', type: 'Kapal Kargo Bulk', status: 'DALAM PERJALANAN', statusColor: '#22C55E', location: 'Selat Malaka', destination: 'Belawan', eta: '2026-04-09 22:15', cargo: 'Beras', update: 'Baru saja' },
+                    { id: 7, name: 'KM DEWARUCI', type: 'Kapal Tanker', status: 'DI PELABUHAN', statusColor: '#3B82F6', location: 'Pelabuhan Tanjung Emas', destination: 'Semarang', eta: 'Tiba', cargo: 'LNG', update: '7 mnt lalu' },
+                    { id: 8, name: 'KM CENDRAWASIH', type: 'Kapal Petikemas', status: 'DALAM PERJALANAN', statusColor: '#22C55E', location: 'Laut Banda', destination: 'Sorong', eta: '2026-04-13 10:00', cargo: 'Barang Konsumsi', update: 'Baru saja' }
                 ]);
             }
         } catch (error) {
             console.error("API Error", error);
             // Fallback
              setArmada([
-                { id: 1, name: 'KM Nusantara', status: 'Dalam Perjalanan', currentPort: 'Tanjung Priok', destinationPort: 'Tanjung Perak', lat: -6.1, lng: 106.8, type: 'Kargo', lastUpdated: '1 Menit yang lalu' },
-                { id: 2, name: 'KRI Bima Suci', status: 'Di Pelabuhan', currentPort: 'Tanjung Perak', destinationPort: '-', lat: -7.2, lng: 112.7, type: 'Militer', lastUpdated: 'Baru Saja' },
+                    { id: 1, name: 'KM NUSANTARA', type: 'Kapal Petikemas', status: 'DALAM PERJALANAN', statusColor: '#22C55E', location: 'Laut Jawa', destination: 'Tanjung Perak', eta: '2026-04-12 08:30', cargo: 'Elektronik', update: 'Baru saja' },
+                    { id: 2, name: 'KM BIMA SAKTI', type: 'Kapal Kargo Bulk', status: 'DI PELABUHAN', statusColor: '#3B82F6', location: 'Pelabuhan Tanjung Priok', destination: 'Tanjung Priok', eta: 'Tiba', cargo: 'Batu Bara', update: '5 mnt lalu' },
+                    { id: 3, name: 'KM SRIWIJAYA', type: 'Kapal Tanker', status: 'TERLAMBAT', statusColor: '#F59E0B', location: 'Selat Sunda', destination: 'Pelabuhan Merak', eta: '2026-04-11 14:00', cargo: 'Minyak Mentah', update: '1 mnt lalu' },
+                    { id: 4, name: 'KM GADJAH MADA', type: 'Kapal Petikemas', status: 'PEMELIHARAAN', statusColor: '#EF4444', location: 'Galangan Kapal Batam', destination: 'Batam', eta: 'Dalam Perawatan', cargo: '-', update: '10 mnt lalu' },
+                    { id: 5, name: 'KM KARTINI', type: 'Kapal Kargo', status: 'DALAM PERJALANAN', statusColor: '#22C55E', location: 'Laut Sulawesi', destination: 'Makassar', eta: '2026-04-10 16:45', cargo: 'Suku Cadang Mesin', update: 'Baru saja' },
+                    { id: 6, name: 'KM MAJAPAHIT', type: 'Kapal Kargo Bulk', status: 'DALAM PERJALANAN', statusColor: '#22C55E', location: 'Selat Malaka', destination: 'Belawan', eta: '2026-04-09 22:15', cargo: 'Beras', update: 'Baru saja' },
+                    { id: 7, name: 'KM DEWARUCI', type: 'Kapal Tanker', status: 'DI PELABUHAN', statusColor: '#3B82F6', location: 'Pelabuhan Tanjung Emas', destination: 'Semarang', eta: 'Tiba', cargo: 'LNG', update: '7 mnt lalu' },
+                    { id: 8, name: 'KM CENDRAWASIH', type: 'Kapal Petikemas', status: 'DALAM PERJALANAN', statusColor: '#22C55E', location: 'Laut Banda', destination: 'Sorong', eta: '2026-04-13 10:00', cargo: 'Barang Konsumsi', update: 'Baru saja' }
             ]);
         } finally {
             setLoading(false);
