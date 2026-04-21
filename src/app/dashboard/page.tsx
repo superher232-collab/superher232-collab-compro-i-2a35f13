@@ -1,8 +1,10 @@
 "use client";
 import React, { Suspense } from 'react';
+import { useDashboard } from '@/context/DashboardContext';
 import { useSearchParams } from 'next/navigation';
 
 function DashboardContent() {
+  const { role, cuaca, updateCuaca } = useDashboard();
   const searchParams = useSearchParams();
   const filter = searchParams.get('filter') || 'semua'; // 'semua', 'berlayar', 'sandar'
 
@@ -132,26 +134,42 @@ function DashboardContent() {
                 </div>
               </div>
             </div>
+            </div>
           </div>
         </div>
 
-        {/* Status Component */}
+        {/* Kendali Navigasi Pusat (RBAC) */}
         <div style={{ flex: '1 1 250px', background: 'linear-gradient(180deg, rgba(20, 10, 36, 0.8) 0%, rgba(20, 10, 36, 0.4) 100%)', border: '1px solid rgba(168, 85, 247, 0.1)', borderRadius: '16px', padding: '32px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
-            <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(34, 197, 94, 0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(34, 197, 94, 0.2)' }}>
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#22C55E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-            </div>
             
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <h4 style={{ margin: 0, color: 'white', fontSize: '16px', fontWeight: '600' }}>Tidak Ditemukan Kendala Navigasi</h4>
-              <p style={{ margin: 0, color: 'var(--text-muted, #8B7BA8)', fontSize: '12px', lineHeight: '1.6' }}>
-                Intelijen Logistik Antigravity secara terus menerus memantau pergerakan ombak, anomali laut, dan jalur lintasan kapal.
-              </p>
-            </div>
-            
-            <div style={{ marginTop: '12px', background: 'rgba(168, 85, 247, 0.1)', border: '1px solid rgba(168, 85, 247, 0.2)', padding: '8px 16px', borderRadius: '20px', fontSize: '11px', color: '#C084FC', fontWeight: '600', letterSpacing: '0.5px' }}>
-              SISTEM NORMAL
-            </div>
+            {role === 'Admin' ? (
+              <>
+                <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(245, 158, 11, 0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(245, 158, 11, 0.2)' }}>
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+                  </svg>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <h4 style={{ margin: 0, color: 'white', fontSize: '16px', fontWeight: '600' }}>KENDALI NAVIGASI PUSAT</h4>
+                  <p style={{ margin: 0, color: 'var(--text-muted, #8B7BA8)', fontSize: '12px', lineHeight: '1.6' }}>Pembaruan anomali armada.</p>
+                </div>
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center', marginTop: '12px' }}>
+                  <button onClick={() => updateCuaca('Badai Ekstrem')} style={{ background: cuaca === 'Badai Ekstrem' ? '#EF4444' : 'rgba(239, 68, 68, 0.2)', border: '1px solid #EF4444', color: 'white', padding: '8px 12px', borderRadius: '4px', fontSize: '11px', cursor: 'pointer' }}>Badai Ekstrem</button>
+                  <button onClick={() => updateCuaca('Terik Gersang')} style={{ background: cuaca === 'Terik Gersang' ? '#F59E0B' : 'rgba(245, 158, 11, 0.2)', border: '1px solid #F59E0B', color: 'white', padding: '8px 12px', borderRadius: '4px', fontSize: '11px', cursor: 'pointer' }}>Terik Gersang</button>
+                  <button onClick={() => updateCuaca('Normal')} style={{ background: cuaca === 'Normal' ? '#22C55E' : 'rgba(34, 197, 94, 0.2)', border: '1px solid #22C55E', color: 'white', padding: '8px 12px', borderRadius: '4px', fontSize: '11px', cursor: 'pointer' }}>Normal</button>
+                </div>
+              </>
+            ) : (
+              <>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <h4 style={{ margin: 0, color: 'white', fontSize: '16px', fontWeight: '600' }}>STATUS LINGKUNGAN</h4>
+                  <p style={{ margin: 0, color: 'var(--text-muted, #8B7BA8)', fontSize: '14px', lineHeight: '1.6' }}>
+                    Status Cuaca Saat Ini: <strong style={{ color: '#C084FC' }}>[{cuaca}]</strong>
+                  </p>
+                </div>
+              </>
+            )}
+
           </div>
         </div>
 

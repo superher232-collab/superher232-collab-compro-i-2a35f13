@@ -111,7 +111,7 @@ export default function Login() {
                 <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
               </svg>
-              <select 
+              <select id="roleSelect"
                 style={{
                   background: 'transparent',
                   border: 'none',
@@ -159,6 +159,7 @@ export default function Login() {
                 <circle cx="12" cy="7" r="4"></circle>
               </svg>
               <input 
+                id="usernameInput"
                 type="text" 
                 placeholder="Masukkan nama pengguna" 
                 style={{
@@ -260,7 +261,13 @@ export default function Login() {
           </div>
 
           {/* Submit Button */}
-          <Link href="/dashboard" style={{
+          <button type="button" onClick={() => {
+            const roleSelect = document.getElementById('roleSelect').value;
+            const userInput = document.getElementById('usernameInput').value || roleSelect; // Default username to role if empty
+            localStorage.setItem('role', roleSelect === 'admin' ? 'Admin' : 'User');
+            localStorage.setItem('username', userInput);
+            window.location.href = '/dashboard';
+          }} style={{
             background: 'linear-gradient(90deg, #A855F7 0%, #9249F2 50%, #7C3AED 100%)',
             border: 'none',
             borderRadius: '4px',
@@ -295,7 +302,7 @@ export default function Login() {
               <line x1="5" y1="12" x2="19" y2="12"></line>
               <polyline points="12 5 19 12 12 19"></polyline>
             </svg>
-          </Link>
+          </button>
         </form>
 
         {/* Status */}

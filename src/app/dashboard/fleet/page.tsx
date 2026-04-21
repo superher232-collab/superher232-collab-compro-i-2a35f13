@@ -1,97 +1,11 @@
-// src/app/dashboard/fleet/page.tsx
+"use client";
 import React from 'react';
+import { useDashboard } from '@/context/DashboardContext';
 
 export default function FleetPage() {
-  const ships = [
-    {
-      name: 'KM NUSANTARA',
-      type: 'Kapal Petikemas',
-      status: 'DALAM PERJALANAN',
-      statusColor: '#22C55E',
-      location: 'Laut Jawa',
-      destination: 'Tanjung Perak',
-      eta: '2026-04-12 08:30',
-      cargo: 'Elektronik',
-      update: 'Baru saja'
-    },
-    {
-      name: 'KM BIMA SAKTI',
-      type: 'Kapal Kargo Bulk',
-      status: 'DI PELABUHAN',
-      statusColor: '#3B82F6',
-      location: 'Pelabuhan Tanjung Priok',
-      destination: 'Tanjung Priok',
-      eta: 'Tiba',
-      cargo: 'Batu Bara',
-      update: '5 mnt lalu'
-    },
-    {
-      name: 'KM SRIWIJAYA',
-      type: 'Kapal Tanker',
-      status: 'TERLAMBAT',
-      statusColor: '#F59E0B',
-      location: 'Selat Sunda',
-      destination: 'Pelabuhan Merak',
-      eta: '2026-04-11 14:00',
-      cargo: 'Minyak Mentah',
-      update: '1 mnt lalu'
-    },
-    {
-      name: 'KM GADJAH MADA',
-      type: 'Kapal Petikemas',
-      status: 'PEMELIHARAAN',
-      statusColor: '#EF4444',
-      location: 'Galangan Kapal Batam',
-      destination: 'Batam',
-      eta: 'Dalam Perawatan',
-      cargo: '-',
-      update: '10 mnt lalu'
-    },
-    {
-      name: 'KM KARTINI',
-      type: 'Kapal Kargo',
-      status: 'DALAM PERJALANAN',
-      statusColor: '#22C55E',
-      location: 'Laut Sulawesi',
-      destination: 'Makassar',
-      eta: '2026-04-10 16:45',
-      cargo: 'Suku Cadang Mesin',
-      update: 'Baru saja'
-    },
-    {
-      name: 'KM MAJAPAHIT',
-      type: 'Kapal Kargo Bulk',
-      status: 'DALAM PERJALANAN',
-      statusColor: '#22C55E',
-      location: 'Selat Malaka',
-      destination: 'Belawan',
-      eta: '2026-04-09 22:15',
-      cargo: 'Beras',
-      update: 'Baru saja'
-    },
-    {
-      name: 'KM DEWARUCI',
-      type: 'Kapal Tanker',
-      status: 'DI PELABUHAN',
-      statusColor: '#3B82F6',
-      location: 'Pelabuhan Tanjung Emas',
-      destination: 'Semarang',
-      eta: 'Tiba',
-      cargo: 'LNG',
-      update: '7 mnt lalu'
-    },
-    {
-      name: 'KM CENDRAWASIH',
-      type: 'Kapal Petikemas',
-      status: 'DALAM PERJALANAN',
-      statusColor: '#22C55E',
-      location: 'Laut Banda',
-      destination: 'Sorong',
-      eta: '2026-04-13 10:00',
-      cargo: 'Barang Konsumsi',
-      update: 'Baru saja'
-    }
-  ];
+  const { role, armada } = useDashboard();
+  // Gunakan data armada dari API (via Context), fallback ke empty array jika null
+  const ships = armada && armada.length > 0 ? armada : [];
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', width: '100%', maxWidth: '1200px', margin: '0 auto', color: 'white', fontFamily: 'monospace' }}>
@@ -138,8 +52,12 @@ export default function FleetPage() {
             <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
           </svg>
         </div>
-        <div style={{ width: '150px', background: 'var(--bg-card, #130a24)', border: '1px solid rgba(168, 85, 247, 0.2)', borderRadius: '4px', padding: '10px' }}></div>
-        <div style={{ width: '150px', background: 'var(--bg-card, #130a24)', border: '1px solid rgba(168, 85, 247, 0.2)', borderRadius: '4px', padding: '10px' }}></div>
+        {role === 'Admin' && (
+          <button style={{ background: '#A855F7', color: 'white', padding: '10px 16px', borderRadius: '4px', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', fontWeight: 'bold' }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            Tambah Armada
+          </button>
+        )}
       </div>
 
       {/* Fleet Grid */}
@@ -173,6 +91,17 @@ export default function FleetPage() {
                 {ship.status === 'PEMELIHARAAN' && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={ship.statusColor} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>}
                 <span style={{ fontSize: '9px', fontWeight: 'bold', color: ship.statusColor }}>{ship.status}</span>
               </div>
+              
+              {role === 'Admin' && (
+                <button aria-label="Hapus Kapal" style={{ background: 'transparent', border: 'none', cursor: 'pointer', padding: '4px' }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EF4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                  </svg>
+                </button>
+              )}
             </div>
 
             {/* Details Grid */}

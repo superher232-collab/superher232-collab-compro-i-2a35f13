@@ -1,68 +1,30 @@
 "use client";
 import React, { useState, useEffect } from 'react';
+import { useDashboard } from '@/context/DashboardContext';
 
 export default function MapPage() {
-  const [ships, setShips] = useState([
-    { id: 1, name: 'KM NUSANTARA', cx: 50, cy: 50, status: 'Di Pelabuhan', color: '#3B82F6' },
-    { id: 2, name: 'KM BIMA SAKTI', cx: 54, cy: 48, status: 'Dalam Perjalanan', color: '#22C55E' },
-    { id: 3, name: 'KM SRIWIJAYA', cx: 65, cy: 60, status: 'Pemeliharaan Fisik', color: '#EF4444' },
-    { id: 4, name: 'KM KARTINI', cx: 77, cy: 58, status: 'Dalam Perjalanan', color: '#22C55E' },
-    { id: 5, name: 'KM MAJAPAHIT', cx: 80, cy: 61, status: 'Dalam Perjalanan', color: '#22C55E' },
-    { id: 6, name: 'KM DEWARUCI', cx: 86, cy: 75, status: 'Dalam Perjalanan', color: '#22C55E' }
-  ]);
-
-  // Polling per 60 seconds to move ships
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setShips(prevShips => prevShips.map(ship => {
-        if (ship.status !== 'Dalam Perjalanan') return ship;
-        // Randomly adjust cx and cy slightly
-        const moveX = (Math.random() - 0.5) * 2;
-        const moveY = (Math.random() - 0.5) * 2;
-        return {
-          ...ship,
-          cx: Math.max(10, Math.min(90, ship.cx + moveX)),
-          cy: Math.max(10, Math.min(90, ship.cy + moveY))
-        };
-      }));
-    }, 60000); // 60 seconds polling as requested
-    
-    return () => clearInterval(interval);
-  }, []);
-
-  const handleShipClick = (shipId) => {
-    // Manual status update
-    setShips(prevShips => prevShips.map(ship => {
-      if (ship.id === shipId) {
-        // Toggle status as an example of manual override
-        const nextStatus = ship.status === 'Dalam Perjalanan' ? 'Di Pelabuhan' : 'Dalam Perjalanan';
-        const nextColor = nextStatus === 'Dalam Perjalanan' ? '#22C55E' : '#3B82F6';
-        console.log(`Manual Status Update: ${ship.name} is now [${nextStatus}]. Antigravity AI notification triggered.`);
-        return { ...ship, status: nextStatus, color: nextColor };
-      }
-      return ship;
-    }));
-  };
+  const { armada } = useDashboard();
+  
+  // Karena struktur database kadang memakai lat/lng dan UI SVG memakai cx/cy,
+  // kita petakan armada untuk punya nilai cx dan cy yang valid sebagai fallback layar.
+  const shipsMap = armada.map((s, index) => ({
+    ...s,
+    cx: s.cx || (20 + (index * 15) % 70), // fallback visual
+    cy: s.cy || (30 + (index * 20) % 60), 
+    statusText: s.status,
+    statusColor: s.status === 'Dalam Perjalanan' || s.status === 'DALAM PERJALANAN' ? '#22C55E' : 
+                 (s.status === 'Di Pelabuhan' || s.status === 'DI PELABUHAN' ? '#3B82F6' : '#EF4444')
+  }));
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100%', maxWidth: '1200px', margin: '0 auto', color: 'white', fontFamily: 'monospace' }}>
       
-      <div style={{ display: 'flex', gap: '40px', padding: '0 0 24px 0', borderBottom: '1px solid rgba(168, 85, 247, 0.2)', marginBottom: '24px' }}>
-        <div style={{ color: '#A855F7', fontWeight: 'bold', cursor: 'pointer' }}>Kinerja dan wawasan</div>
-        <div style={{ color: 'var(--text-muted, #8B7BA8)', cursor: 'pointer' }}>Laporan Logbook</div>
-        <div style={{ color: 'var(--text-muted, #8B7BA8)', cursor: 'pointer' }}>Tren Pergerakan</div>
-      </div>
-
       {/* Main Map Container */}
       <div style={{ background: 'var(--bg-card, #130a24)', border: '1px solid rgba(168, 85, 247, 0.2)', borderRadius: '4px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px', position: 'relative' }}>
         
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div style={{ fontSize: '12px', fontWeight: 'bold', letterSpacing: '1px', textTransform: 'uppercase' }}>PELACAKAN ARMADA GLOBAL</div>
-          <div style={{ display: 'flex', background: 'rgba(255,255,255,0.05)', borderRadius: '4px', overflow: 'hidden' }}>
-            <div style={{ background: '#A855F7', color: 'white', padding: '6px 16px', fontSize: '10px', fontWeight: 'bold', cursor: 'pointer' }}>TAMPILAN GLOBAL</div>
-            <div style={{ color: 'var(--text-muted, #8B7BA8)', padding: '6px 16px', fontSize: '10px', fontWeight: 'bold', cursor: 'pointer' }}>REGIONAL</div>
-          </div>
         </div>
 
         {/* Map Area */}
@@ -99,16 +61,15 @@ export default function MapPage() {
             <line x1="25%" y1="75%" x2="65%" y2="60%" stroke="rgba(168, 85, 247, 0.3)" strokeWidth="1" strokeDasharray="4 4" />
             
             {/* Render Dynamic Ships */}
-            {ships.map(ship => (
+            {shipsMap.map((ship, index) => (
               <g 
-                key={ship.id} 
+                key={ship.id || index} 
                 className="ship-node"
-                style={{ cursor: 'pointer', transition: 'all 0.5s ease-in-out' }} 
-                onClick={() => handleShipClick(ship.id)}
+                style={{ transition: 'all 0.5s ease-in-out' }} 
               >
                 <circle cx={`${ship.cx}%`} cy={`${ship.cy}%`} r="6" fill="transparent" /> {/* Hitbox */}
-                <circle cx={`${ship.cx}%`} cy={`${ship.cy}%`} r="4" fill={ship.color} />
-                <circle cx={`${ship.cx}%`} cy={`${ship.cy}%`} r={ship.status === 'Dalam Perjalanan' ? '12' : '15'} fill={ship.color} opacity={ship.status === 'Dalam Perjalanan' ? '0.2' : '0.1'} stroke={ship.status !== 'Dalam Perjalanan' ? ship.color : 'none'} strokeWidth="1" />
+                <circle cx={`${ship.cx}%`} cy={`${ship.cy}%`} r="4" fill={ship.statusColor} />
+                <circle cx={`${ship.cx}%`} cy={`${ship.cy}%`} r={ship.statusText?.includes('Perjalanan') ? '12' : '15'} fill={ship.statusColor} opacity={ship.statusText?.includes('Perjalanan') ? '0.2' : '0.1'} stroke={ship.statusText?.includes('Perjalanan') ? 'none' : ship.statusColor} strokeWidth="1" />
                 <text x={`${ship.cx + 2}%`} y={`${ship.cy - 1}%`} fill="white" fontSize="10px" fontWeight="bold" style={{ pointerEvents: 'none' }}>
                   {ship.name}
                 </text>

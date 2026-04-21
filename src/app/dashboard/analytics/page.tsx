@@ -1,7 +1,15 @@
-// src/app/dashboard/analytics/page.tsx
+"use client";
 import React from 'react';
+import { useDashboard } from '@/context/DashboardContext';
 
 export default function AnalyticsPage() {
+  const { armada } = useDashboard();
+  
+  // Perhitungan Akurat
+  const total = armada.length;
+  const berlayar = armada.filter(s => s.status.toLowerCase().includes('perjalanan') || s.status.toLowerCase().includes('berlayar')).length;
+  const sandar = armada.filter(s => s.status.toLowerCase().includes('pelabuhan') || s.status.toLowerCase().includes('sandar')).length;
+  const maintenance = total - berlayar - sandar; // Sisanya (Keterlambatan/Pemeliharaan)
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', width: '100%', maxWidth: '1200px', margin: '0 auto', color: 'white', fontFamily: 'monospace' }}>
       
@@ -14,7 +22,7 @@ export default function AnalyticsPage() {
             <span style={{ fontSize: '11px', color: 'var(--text-muted, #8B7BA8)' }}>Total Armada Aktif</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22C55E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 16 16 12 12 8"></polyline><line x1="8" y1="12" x2="16" y2="12"></line></svg>
           </div>
-          <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#22C55E' }}>42 Kapal</div>
+          <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#22C55E' }}>{total} Kapal</div>
         </div>
 
         {/* Card 2 */}
@@ -23,7 +31,7 @@ export default function AnalyticsPage() {
             <span style={{ fontSize: '11px', color: 'var(--text-muted, #8B7BA8)' }}>Sedang Berlayar</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#A855F7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
           </div>
-          <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#C7B8EA' }}>28 Kapal</div>
+          <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#C7B8EA' }}>{berlayar} Kapal</div>
         </div>
 
         {/* Card 3 */}
@@ -32,7 +40,7 @@ export default function AnalyticsPage() {
             <span style={{ fontSize: '11px', color: 'var(--text-muted, #8B7BA8)' }}>Di Pelabuhan</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
           </div>
-          <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#3B82F6' }}>10 Kapal</div>
+          <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#3B82F6' }}>{sandar} Kapal</div>
         </div>
 
         {/* Card 4 */}
@@ -41,7 +49,7 @@ export default function AnalyticsPage() {
             <span style={{ fontSize: '11px', color: 'var(--text-muted, #8B7BA8)' }}>Pemeliharaan Fisik</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EAB308" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
           </div>
-          <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#EAB308' }}>4 Kapal</div>
+          <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#EAB308' }}>{maintenance} Kapal</div>
         </div>
       </div>
 
@@ -93,21 +101,16 @@ export default function AnalyticsPage() {
         <div style={{ fontSize: '11px', fontWeight: 'bold', letterSpacing: '1px', marginBottom: '16px', textTransform: 'uppercase' }}>LOGBOOK PERGERAKAN TERAKHIR</div>
         
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px dashed rgba(255,255,255,0.1)', paddingBottom: '8px' }}>
-            <span style={{ fontSize: '12px', color: '#A855F7' }}>KM NUSANTARA</span>
-            <span style={{ fontSize: '12px', color: '#22C55E' }}>Dalam_Perjalanan</span>
-            <span style={{ fontSize: '11px', color: 'var(--text-muted, #8B7BA8)' }}>Armada sedang berlayar menuju pelabuhan tujuan dan koordinat GPS terus dipantau.</span>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px dashed rgba(255,255,255,0.1)', paddingBottom: '8px' }}>
-            <span style={{ fontSize: '12px', color: '#A855F7' }}>KM BIMA SAKTI</span>
-            <span style={{ fontSize: '12px', color: '#3B82F6' }}>Di_Pelabuhan</span>
-            <span style={{ fontSize: '11px', color: 'var(--text-muted, #8B7BA8)' }}>Armada telah bersandar dengan aman dan siap untuk proses bongkar muat.</span>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '8px' }}>
-            <span style={{ fontSize: '12px', color: '#A855F7' }}>KM SRIWIJAYA</span>
-            <span style={{ fontSize: '12px', color: '#EF4444' }}>Pemeliharaan_Fisik</span>
-            <span style={{ fontSize: '11px', color: 'var(--text-muted, #8B7BA8)' }}>Kapar sedang berlabuh untuk inspeksi lambung dan navigasi.</span>
-          </div>
+          {armada.slice(0, 5).map((l, i) => (
+            <div key={i} style={{ display: 'flex', justifyContent: 'space-between', borderBottom: i !== 4 ? '1px dashed rgba(255,255,255,0.1)' : 'none', paddingBottom: '8px' }}>
+              <span style={{ fontSize: '12px', color: '#A855F7', flex: 1 }}>{l.name}</span>
+              <span style={{ fontSize: '12px', color: l.status.toLowerCase().includes('perjalanan') ? '#22C55E' : '#3B82F6', flex: 1, textAlign: 'center' }}>{l.status}</span>
+              <span style={{ fontSize: '11px', color: 'var(--text-muted, #8B7BA8)', flex: 2, textAlign: 'right' }}>Update Pelacakan Otomatis Diterima.</span>
+            </div>
+          ))}
+          {armada.length === 0 && (
+            <div style={{ fontSize: '11px', color: 'var(--text-muted, #8B7BA8)', textAlign: 'center', padding: '16px' }}>Menunggu sinkronisasi data logbook...</div>
+          )}
         </div>
       </div>
 
