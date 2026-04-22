@@ -44,6 +44,7 @@ export async function GET(request) {
           lokasi_terkini    AS location,
           tujuan            AS destination,
           eta,
+          cargo,
           latitude,
           longitude
         FROM tb_kapal 
@@ -59,6 +60,7 @@ export async function GET(request) {
           lokasi_terkini    AS location,
           tujuan            AS destination,
           eta,
+          cargo,
           latitude,
           longitude
         FROM tb_kapal 
@@ -116,7 +118,7 @@ export async function POST(request) {
     }
 
     const body = await request.json();
-    const { name, type, status, location, destination, eta } = body;
+    const { name, type, status, location, destination, eta, cargo } = body;
 
     if (!name || !type || !status) {
       return NextResponse.json(
@@ -126,14 +128,15 @@ export async function POST(request) {
     }
 
     const result = await sql`
-      INSERT INTO tb_kapal (nama_kapal, jenis_kapal, status_pergerakan, lokasi_terkini, tujuan, eta)
+      INSERT INTO tb_kapal (nama_kapal, jenis_kapal, status_pergerakan, lokasi_terkini, tujuan, eta, cargo)
       VALUES (
         ${name},
         ${type},
         ${status},
         ${location    ?? null},
         ${destination ?? null},
-        ${eta         ?? null}
+        ${eta         ?? null},
+        ${cargo       ?? null}
       )
       RETURNING 
         id_kapal          AS id,
@@ -142,7 +145,8 @@ export async function POST(request) {
         status_pergerakan AS status,
         lokasi_terkini    AS location,
         tujuan            AS destination,
-        eta;
+        eta,
+        cargo;
     `;
 
     return NextResponse.json({
