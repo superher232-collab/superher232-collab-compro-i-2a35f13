@@ -252,10 +252,9 @@ export default function DashboardLayout({ children }) {
           </div>
         </nav>
 
-        {/* Main Content Area */}
-        <main style={{ flex: 1, padding: '24px' }}>
-          {children}
-        </main>
+       <main style={{ flex: 1, padding: '24px', width: '100%', boxSizing: 'border-box', overflowX: 'hidden' }}>
+  {children}
+</main>
       </div>
     </DashboardProvider>
   );

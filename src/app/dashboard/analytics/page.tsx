@@ -49,8 +49,7 @@ export default function AnalyticsPage() {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', width: '100%', maxWidth: '1200px', margin: '0 auto', color: 'white', fontFamily: 'monospace' }}>
-
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', width: '100%', color: 'white', fontFamily: 'monospace' }}>
       {/* Top Cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px' }}>
         {[
